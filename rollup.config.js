@@ -1,0 +1,31 @@
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
+import dts from 'rollup-plugin-dts';
+
+const packageJson = require('./package.json');
+
+export default [
+    {
+        input: 'src/index.ts',
+        output: [
+            {
+                file: packageJson.main,
+                format: 'cjs', // CommonJS: Node.jsで採用されているモジュールシステム。そのままではブラウザで動かない
+                sourcemap: true,
+            },
+            {
+                file: packageJson.module,
+                format: 'esm', // ES Modules: JavaScriptにおけるスタンダードなモジュールシステム. Node.jsのデフォルトはCommonJSだが、設定次第でESMもサポート可能
+                sourcemap: true,
+            },
+            // UMD: Universal Module Definition : ブラウザでもNode.jsでも動くようにするためのモジュールシステム
+        ],
+        plugins: [resolve(), commonjs(), typescript({ tsconfig: './tsconfig.json' })],
+    },
+    {
+        input: 'dist/esm/types/index.d.ts',
+        output: [{ file: 'dist/types/index.d.ts', format: 'esm' }],
+        plugins: [dts()],
+    },
+];
