@@ -1,5 +1,6 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 import typescript from '@rollup/plugin-typescript';
 import dts from 'rollup-plugin-dts';
 import postcss from 'rollup-plugin-postcss';
@@ -10,7 +11,7 @@ const packageJson = require('./package.json');
 const tailwindConfig = require('./tailwind.config.js');
 
 export default [
-    // 1つ目の出力設定
+    // npmで配布するための設定
     {
         input: 'src/index.ts',
         output: [
@@ -42,6 +43,38 @@ export default [
                 plugins: [tailwindcss(tailwindConfig)],
             }),
             terser(),
+        ],
+    },
+    // CDNで配布するための設定
+    {
+        input: 'src/index.ts',
+        output: [
+            {
+                // CDNで配布するための設定
+                file: 'dist/cdn/index.esm.js',
+                format: 'esm', // ES Modules: JavaScriptにおけるスタンダードなモジュールシステム. Node.jsのデフォルトはCommonJSだが、設定次第でESMもサポート可能
+                sourcemap: true,
+            },
+        ],
+        plugins: [
+            resolve(), //
+            commonjs(),
+            typescript({ tsconfig: './tsconfig.json' }),
+            postcss({
+                config: {
+                    path: './postcss.config.js',
+                },
+                extensions: ['.css', '.scss'],
+                minimize: true,
+                inject: {
+                    insertAt: 'top',
+                },
+                plugins: [tailwindcss(tailwindConfig)],
+            }),
+            terser(),
+            replace({
+                'process.env.NODE_ENV': JSON.stringify('production'),
+            }),
         ],
     },
     // 2つ目の出力設定
