@@ -7,7 +7,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 const meta = {
     title: "ReactComponentLibrary/Button", // directory pathだと考えれば良い
     component: Button,
-    tags: ['react', 'typescript', 'button', 'autodocs'],
+    tags: ['autodocs'],
     argTypes: {
         bgColor: { control: 'color' },
     }

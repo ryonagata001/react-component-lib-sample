@@ -5,7 +5,7 @@ export interface ButtonProps {
      * Button contents
      * @default Hello world!
      */
-    label: string;
+    label?: string;
     /**
      * ボタンの背景色
      * @default ffffff
@@ -26,7 +26,9 @@ const Button = ({
 }: ButtonProps) => {
     return (
         <button 
-            className='border-none'
+            className={[
+                'border-none',
+            ].join('')}
             style={{ backgroundColor: bgColor }}
             onClick={props.onClick}
         >
