@@ -11,29 +11,15 @@
         <!-- JSのトランスパイラである「Babel」=> JSXを単純なJSにトランスパイルするためにBabelが必要 -->
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
         <!-- 作ったLibのimport -->
-        <!-- <script src="./dist/esm/index.js" type="module"></script> -->
-        <script src="https://dev-studio.cdn.chillnn.com/react/index.esm.js" type="module"></script>
+        <script src="./dist/umd/index.umd.js"></script>
     </head>
     <body>
         <div id="root"></div>
     </body>
-    <script type="module">
-        import * as Lib from 'https://dev-studio.cdn.chillnn.com/react/index.esm.js';
-        // console.log(Lib.Button);
-        ReactDOM.render(<Lib.Button>ボタン</Lib.Button>, document.getElementById('root'));
-    </script>
     <script type="text/babel">
-        ReactDOM.render(<Lib.Button>ボタン</Lib.Button>, document.getElementById('root'));
-        // Reactコンポーネントを定義
-        const App = () => {
-            return (
-                <div>
-                    <h1>React DOM Test</h1>
-                    <p>React DOM Test</p>
-                </div>
-            );
-        };
+        // importしたReactコンポーネントを変数に格納
+        const Button = window['react-component-cdn-template'].Button;
         // ReactコンポーネントをDOMにマウント
-        ReactDOM.render(<App />, document.getElementById('root'));
+        ReactDOM.render(<Button bgColor={'#00ffff'} onClick={() => console.log('click', new Date().getTime())} />, document.getElementById('root'));
     </script>
 </html>

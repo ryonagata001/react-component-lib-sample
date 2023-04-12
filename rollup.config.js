@@ -51,9 +51,9 @@ export default [
         output: [
             {
                 // CDNで配布するための設定
-                file: 'dist/cdn/index.esm.js',
-                format: 'esm', // ES Modules: JavaScriptにおけるスタンダードなモジュールシステム. Node.jsのデフォルトはCommonJSだが、設定次第でESMもサポート可能
-                sourcemap: true,
+                file: 'dist/umd/index.umd.js',
+                format: 'umd', // UMD: Universal Module Definition : ブラウザでもNode.jsでも動くようにするためのモジュールシステム
+                name: packageJson.name,
             },
         ],
         plugins: [
