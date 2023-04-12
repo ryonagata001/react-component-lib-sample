@@ -6,6 +6,7 @@ import dts from 'rollup-plugin-dts';
 const packageJson = require('./package.json');
 
 export default [
+    // 1つ目の出力設定
     {
         input: 'src/index.ts',
         output: [
@@ -23,9 +24,11 @@ export default [
         ],
         plugins: [resolve(), commonjs(), typescript({ tsconfig: './tsconfig.json' })],
     },
+    // 2つ目の出力設定
+    // ライブラリの型定義ファイルをどのように配布するかを設定している
     {
         input: 'dist/esm/types/index.d.ts',
         output: [{ file: 'dist/types/index.d.ts', format: 'esm' }],
-        plugins: [dts()],
+        plugins: [dts.default()],
     },
 ];
